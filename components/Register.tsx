@@ -21,7 +21,7 @@ import apiUrl from './api';
   ];
 // dropdown
 
-const Register = () => {
+const Register = (props:any) => {
   const [userId, setUserId] = useState('');
   const [userId1, setUserId1] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +31,7 @@ const Register = () => {
   const navigation = useNavigation(); // Use useNavigation hook to get navigation object
   const [contactNumber, setContactNumber] = useState(''); //for ContactNumber
 
-  const [value, setValue] = useState(null); // dropdown
+  const [value, setValue] = useState(''); // dropdown
   const [email,setEmail]=useState('');
   const [loading, setLoading] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -55,10 +55,10 @@ const Register = () => {
         Alert.alert("Please input all the fields first");
         return;
       }
-      if (!isValidEmail) {
-        Alert.alert("Please enter a valid email address");
-        return;
-      }
+      // if (!isValidEmail) {
+      //   Alert.alert("Please enter a valid email address");
+      //   return;
+      // }
 
       // Validate contactNumber length
       if (contactNumber.length !== 11) {
@@ -75,6 +75,7 @@ const Register = () => {
       });
 
       Alert.alert("Account created Successfully.");
+      props.navigation.navigate('Login')
     } catch (error) {
       console.error("Error creating user:", error);
       Alert.alert("Error", "Invalid input. Please check your details.");
@@ -230,7 +231,7 @@ const Register = () => {
       </TouchableOpacity>
 
      {/* <View><Text style={styles.forgetText}>Forgot Password?</Text></View> */}
-     <Text style={styles.labe2}>Already have an account? <Text style={styles.labe3} onPress={() => navigation.navigate("Login")}>Login</Text></Text>
+     <Text style={styles.labe2}>Already have an account? <Text style={styles.labe3} onPress={() => props.navigation.navigate("Login")}>Login</Text></Text>
      
      
      <View><Text style={styles.ContactUS}>Contact US</Text></View>
