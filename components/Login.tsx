@@ -1,17 +1,18 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View ,Alert} from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 import { CheckBox } from 'react-native-elements';
-
-const Login = () => {
+import apiUrl from './api';
+import axios from 'axios';
+const Login = (props:any) => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSelected, setSelection] = useState(false); // Define state for checkbox
   const navigation = useNavigation(); // Use useNavigation hook to get navigation object
-
+  const [loading, setLoading] = useState(false);
   const handleUserIdChange = (text: string) => {
     setUserId(text);
   };
@@ -19,6 +20,28 @@ const Login = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const signin=async ()=>{
+    try {
+      setLoading(true);
+      if(!userId||!password){
+        Alert.alert("Please input all the fields first");
+        return;
+      }
+      const response = await axios.post( `${apiUrl}/api/user`, {
+        email:userId,
+        password: password,
+      });
+
+      Alert.alert("Welcome");
+    } catch (error) {
+      console.error("Error logging in user:", error);
+      Alert.alert("Error", "Invalid input. Please check your details.");
+      Alert.alert("Error", "Failed to load user");
+    }
+    finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -69,12 +92,12 @@ const Login = () => {
 
       
 
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={signin}>
         <Text style={styles.text3}>Login</Text>
       </TouchableOpacity>
 
      <View><Text style={styles.forgetText}>Forgot Password?</Text></View>
-     <Text style={styles.labe2}>New User? <Text style={styles.labe3} onPress={() => navigation.navigate("Register")}>Sign Up</Text></Text>
+     <Text style={styles.labe2}>New User? <Text style={styles.labe3} onPress={() =>props.navigation.navigate("Register")}>Sign Up</Text></Text>
      
      
      <View><Text style={styles.ContactUS}>Contact US</Text></View>
