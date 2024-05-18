@@ -1,89 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { blue, darkBlue, white } from './Color'; // Assuming 'white' color is defined
-import apiUrl from './api';
-import { useNavigation } from "@react-navigation/native";
+import { blue, darkBlue } from './Color';
 
-const DoctorList = (props:any) => {
-  const { token } = props.route.params;
+const DoctorList = () => {
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token,
-    };
-  const [doctors, setDoctors] = useState([]);
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    fetchDoctors();
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const fetchDoctors = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/api/alldoctors`);
-      const data = await response.json();
-      setDoctors(data);
-    } catch (error) {
-      console.error('Error fetching doctors:', error);
-    }
-  };
-
-  const handleHomePress = () => props.navigation.navigate('UserHome');
+  const handleHomePress = () => console.log('Home pressed');
   const handlePredictPress = () => console.log('Predict pressed');
   const handleHighlightPress = () => console.log('Highlight pressed');
 
   return (
     <View style={styles.container}>
-      {/* Top bar with auto-updating time and date */}
-      <View style={styles.topBar}>
-        <Image source={require('../assets/DocLink1.png')} style={styles.logo} />
-        <Text style={styles.dateTimeText}>{currentTime.toLocaleString()}</Text>
+      <View style={styles.rowContainer}>
+        <Text style={styles.text}>Sunday 18/2/24</Text>
+        <Image source={require('../assets/qr.png')} style={styles.qrImage} />
       </View>
 
       <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.contentContainer}>
-          {doctors.map((doctor, index) => (
-            <View style={styles.card} key={index}>
-              <Image source={require('../assets/doctor (1).png')} style={styles.image} />
-              <View style={styles.cardContent}>
-                <Text style={styles.doctorName}>{doctor.name}</Text>
-                <Text style={styles.doctorInfo}>{doctor.degree}</Text>
-                <Text style={styles.doctorInfo}>{doctor.specialization}</Text>
-                <Text style={styles.doctorInfo}>Rank: {doctor.rank}</Text>
-                <Text style={styles.doctorInfo}>{doctor.hospital}</Text>
+          {[1, 2, 3, 4].map((item, index) => (
+            <View style={styles.headerContainer} key={index}>
+              <Image source={require('../assets/doctor.png')} style={styles.image} />
+              <View style={styles.headerTextContainer}>
+                <Text style={styles.doctorName}>Dr. Md Russel Mustafiz</Text>
+                <Text style={styles.doctorInfo}>MBBS, MCPS (Medicine), FCPS</Text>
+                <Text style={styles.doctorInfo}>Associate Professor & Head,</Text>
+                <Text style={styles.doctorInfo}>Department of Medicine</Text>
+                <Text style={styles.doctorInfo}>Rajshahi Medical College & Hospital</Text>
               </View>
             </View>
           ))}
         </View>
       </ScrollView>
 
+      {/* Add a gap */}
+      <View style={styles.gap} />
+
       {/* Fixed Navigation */}
       <View style={styles.nav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => {
-                props.navigation.navigate('UserHome',{ 
-                    token: token,});
-            }}>
-          <Image source={require('../assets/home (2).png')} style={styles.navIcon} />
+        <TouchableOpacity style={styles.navButton} onPress={handleHomePress}>
+          <Image source={require('../assets/home.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => {
-                props.navigation.navigate('SkinPredict',{ 
-                    token: token,});
-            }}>
+        <TouchableOpacity style={styles.navButton} onPress={handlePredictPress}>
           <Image source={require('../assets/camera.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Predict</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton} onPress={handleHighlightPress}>
-          <Image source={require('../assets/medical-team.png')} style={styles.navIcon} />
-          <Text style={styles.navText}>All Doctors</Text>
+          <Image source={require('../assets/hei.png')} style={styles.navIcon} />
+          <Text style={styles.navText}>Highlight</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -93,49 +59,44 @@ const DoctorList = (props:any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: white,
-  },
-  topBar: {
-    backgroundColor: darkBlue,
-    padding: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  logo: {
-    width: 200,
-    height: 50,
-  },
-  dateTimeText: {
-    color: 'white',
-    fontSize: 16,
+    backgroundColor: blue,
   },
   scrollViewContainer: {
     flex: 1,
   },
   contentContainer: {
-    padding: 10,
+    paddingBottom: 90, 
   },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 3,
+  rowContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: '10%',
+    backgroundColor: darkBlue,
+    marginBottom: 10,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  qrImage: {
+    width: 40,
+    height: 40,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    backgroundColor: darkBlue,
+    alignItems: 'center',
+    padding: '12%',
+    marginBottom: 10,
   },
   image: {
     width: 100,
     height: 100,
-    marginRight: 10,
   },
-  cardContent: {
-    flex: 1,
+  headerTextContainer: {
+    marginLeft: 10,
   },
   doctorName: {
     color: 'black',
@@ -146,6 +107,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 12,
   },
+  gap: {
+    height: 20, // Adjust the height of the gap as needed
+  },
   nav: {
     position: 'absolute',
     bottom: 0,
@@ -155,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
   },
   navIcon: {
     width: 35,
