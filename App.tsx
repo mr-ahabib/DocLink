@@ -7,6 +7,24 @@ import Login from './components/Login'
 import { color } from 'react-native-elements/dist/helpers';
 import Register from './components/Register';
 
+import UserHome from './components/UserHome';
+import ProfileUpdate from './components/ProfileUpdate';
+import InputUser from './components/InputUser';
+import Dlogin from './components/Dlogin';
+import Docprofile from './components/Docprofile';
+
+import DocProfileUpdate from './components/DocProfileUpdate';
+import DoctorList from './components/DoctorList';
+import MainPrescription from './components/MainPrescription';
+import PrescriptionScreen from './components/PrescriptionScreen';
+import SkinPredict from './components/skinPredict';
+import Ambulance from './components/Ambulance';
+import PrescriptionWrite from './components/PrescriptionWrite';
+import Alarm from './components/Alarm';
+import UploadImage from './components/UploadImage';
+
+
+
 const Stack = createStackNavigator();
 
 
@@ -22,6 +40,23 @@ const App=()=>{
               
               <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
               <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+              <Stack.Screen name="UserHome" component={UserHome} options={{ headerShown: false }} />
+              <Stack.Screen name="ProfileUpdate" component={ProfileUpdate} options={{ headerShown: false }} />
+              <Stack.Screen name="InputUser" component={InputUser} options={{ headerShown: false }} />
+              <Stack.Screen name="Dlogin" component={Dlogin} options={{ headerShown: false }} />
+              <Stack.Screen name="Docprofile" component={Docprofile} options={{ headerShown: false }} />
+              <Stack.Screen name="DocProfileUpdate" component={DocProfileUpdate} options={{ headerShown: false }} />
+              <Stack.Screen name="DoctorList" component={DoctorList} options={{ headerShown: false }} />
+              <Stack.Screen name="MainPrescription" component={MainPrescription} options={{ headerShown: false }} />
+              <Stack.Screen name="PrescriptionScreen" component={PrescriptionScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="SkinPredict" component={SkinPredict} options={{ headerShown: false }} />
+              <Stack.Screen name="Ambulance" component={Ambulance} options={{ headerShown: false }} />
+              <Stack.Screen name="PrescriptionWrite" component={PrescriptionWrite} options={{ headerShown: false }} />
+              <Stack.Screen name="Alarm" component={Alarm} options={{ headerShown: false }} />
+              <Stack.Screen name="UploadImage" component={UploadImage} options={{ headerShown: false }} />
+
+
+              
               
               
             </Stack.Navigator>

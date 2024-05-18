@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { CheckBox } from 'react-native-elements';
 import apiUrl from './api';
 import axios from 'axios';
-const Login = (props:any) => {
+const Dlogin = (props:any) => {
 
 
   const [userId, setUserId] = useState('');
@@ -38,7 +38,7 @@ const Login = (props:any) => {
     
       const { success,nessage,token } = response.data;
       console.log(token)
-     props.navigation.navigate('UserHome', {
+     props.navigation.navigate('Docprofile', {
        
           token: token,
           
@@ -111,8 +111,8 @@ const Login = (props:any) => {
       </TouchableOpacity>
 
      <View><Text style={styles.forgetText}>Forgot Password?</Text></View>
-     <Text style={styles.labe2}>New User? <Text style={styles.labe3} onPress={() =>props.navigation.navigate("Register")}>Sign Up</Text></Text>
-     <Text style={styles.labe2}>Are you a Doctor? <Text style={styles.labe3} onPress={() =>props.navigation.navigate("Dlogin")}>Sign in as Doctor</Text></Text>
+
+     <Text style={styles.labe2}>Are you a Doctor? <Text style={styles.labe3} onPress={() =>props.navigation.navigate("Register")}>Sign in as Doctor</Text></Text>
      
      <View><Text style={styles.ContactUS}>Contact US</Text></View>
      
@@ -123,7 +123,7 @@ const Login = (props:any) => {
   );
 };
 
-export default Login;
+export default Dlogin;
 
 const styles = StyleSheet.create({
   container: {
