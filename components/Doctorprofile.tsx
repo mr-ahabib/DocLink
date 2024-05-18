@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,TextInput } from 'react-native';
 import React from 'react';
 import { darkBlue } from './Color';
 
-const UserProfile = () => {
+const DoctorProfile = () => {
 
     const handleHomePress = () => console.log('Home pressed');
     const handlePredictPress = () => console.log('Predict pressed');
@@ -16,46 +16,40 @@ const UserProfile = () => {
             </View>
 
             <View style={styles.centeredImageContainer}>
-                <Image source={require('../assets/user.png')} style={styles.image1} />
+                <Image source={require('../assets/doctor.png')} style={styles.image1} />
                 <Text style={{ fontWeight: 'bold' }}>Mirza Hasan</Text>
 
-                <View style={styles.healthStatusContainer}>
-                    <View style={styles.circle}>
-                        <Text style={styles.healthStatusText}>Health status</Text>
-                        <Text style={styles.healthStatusPercentage}>94%</Text>
-                    </View>
-                    <View style={styles.healthDetailContainer}>
-                        <Text style={styles.healthDetailText}>Major: Diabetic</Text>
-                        <Text style={styles.healthDetailText}>Minor: Blood Pressure</Text>
-                    </View>
-                </View>
+                
 
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
 
                     <View style={{ alignItems: 'center' }}>
                         <View style={styles.doctor}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center' }}>10</Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>10</Text>
                         </View>
-                        <Text>Doctor</Text>
+                        <Text style={{fontSize:20,fontWeight: 'bold', marginLeft:'-18%'}}>patient</Text>
                     </View>
 
 
-                    <View style={{ alignItems: 'center' }}>
-                        <View style={styles.report}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center' }}>10</Text>
-                        </View>
-                        <Text>Report</Text>
-                    </View>
+
+                 
+                    
 
 
-                    <View style={{ alignItems: 'center' }}>
-                        <View style={styles.prescription}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center' }}>10</Text>
-                        </View>
-                        <Text>Prescription</Text>
-                    </View>
+                   
                 </View>
+
+                <View style={styles.searchContainer}>
+        <TextInput
+            style={styles.inputField}
+            placeholder="Search"
+            placeholderTextColor="#aaa"
+        />
+        <TouchableOpacity style={styles.searchButton}>
+            <Text style={styles.searchButtonText}>Search</Text>
+        </TouchableOpacity>
+    </View>
 
 
 
@@ -94,6 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: '7%',
         paddingHorizontal: '7%',
+       
     },
     text: {
         marginRight: 10,
@@ -206,7 +201,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginBottom: '-68%'
+        marginBottom: '-85%'
     },
     navicon: {
         width: 35,
@@ -220,7 +215,34 @@ const styles = StyleSheet.create({
     navButton: {
         alignItems: 'center',
     },
+
+
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop:'10%'
+    },
+    inputField: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: '#ccc',
+        width: '70%', 
+        marginRight: '5%', 
+    },
+    searchButton: {
+        backgroundColor: '#75B2FF',
+        padding: '3%',
+        borderRadius: 3,
+    },
+    searchButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    
 });
 
-export default UserProfile;
+export default DoctorProfile;
 

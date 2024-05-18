@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from 'react-native';
 import { blue, darkBlue } from './Color';
+import MedicineInputs from './MedicineInputs';
 
 const MainPrescription = () => {
 
@@ -8,45 +9,80 @@ const MainPrescription = () => {
   const handlePredictPress = () => console.log('Predict pressed');
   const handleHighlightPress = () => console.log('Highlight pressed');
 
+  // State variables for lab tests and medicine inputs
+  const [labTests, setLabTests] = useState<string[]>(['', '', '', '', '', '', '']);
+  const [medicineName, setMedicineName] = useState<string>('');
+  const [medicineFrequency, setMedicineFrequency] = useState<string>('');
+  const [medicineDuration, setMedicineDuration] = useState<string>('');
+
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Image source={require('../assets/user.png')} style={styles.image} />
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.doctorName}>Md Russel Mustafiz</Text>
-          <Text style={styles.doctorInfo}>MBBS, MCPS (Medicine), FCPS</Text>
-          <Text style={styles.doctorInfo}>Associate Professor & Head,</Text>
-          <Text style={styles.doctorInfo}>Department of Medicine</Text>
-          <Text style={styles.doctorInfo}>Rajshahi Medical College & Hospital</Text>
+      <ScrollView style={styles.contentContainer}>
+        <View style={styles.content}>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Lab Tests</Text>
+            {/* Inputs for lab tests */}
+            {labTests.map((test, index) => (
+              <TextInput
+                key={`labTest${index}`}
+                style={styles.input}
+                placeholder={`Lab Test ${index + 1}`}
+                value={labTests[index]}
+                onChangeText={(text) => {
+                  const updatedLabTests = [...labTests];
+                  updatedLabTests[index] = text;
+                  setLabTests(updatedLabTests);
+                }}
+              />
+            ))}
+          </View>
+          {/* Vertical line */}
+          <View style={styles.verticalLine} />
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Medicine</Text>
+           
+            <MedicineInputs
+              placeholder="Name"
+              setMedicineName={setMedicineName}
+              medicineName={medicineName}
+              setMedicineFrequency={setMedicineFrequency}
+              medicineFrequency={medicineFrequency}
+              setMedicineDuration={setMedicineDuration}
+              medicineDuration={medicineDuration}
+            />
+            {[...Array(6)].map((_, index) => (
+              <MedicineInputs
+                key={`medicine${index}`}
+                placeholder={`Medicine ${index + 2}`}
+                setMedicineName={(value: string) => setMedicineName(value)}
+                medicineName={medicineName}
+                setMedicineFrequency={(value: string) => setMedicineFrequency(value)}
+                medicineFrequency={medicineFrequency}
+                setMedicineDuration={(value: string) => setMedicineDuration(value)}
+                medicineDuration={medicineDuration}
+              />
+            ))}
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
-      <View style={styles.scrollViewContainer}>
-        <View style={[styles.listContainer, { height: '100%' }]}>
-          <Text style={styles.listTitle}>Lab Tests</Text>
-          <ScrollView style={styles.scrollView}>
-            <Text style={styles.listItem}>1. xxxxxxx</Text>
-            <Text style={styles.listItem}>2. xxxxxxx</Text>
-            <Text style={styles.listItem}>3. xxxxxxx</Text>
-          </ScrollView>
+      {/* Fixed position footer */}
+      <View style={styles.footer}>
+        <Button title="Submit" onPress={() => console.log('Submit pressed')} />
+        <View style={styles.nav}>
+          <TouchableOpacity style={styles.navButton} onPress={handleHomePress}>
+            <Image source={require('../assets/home.png')} style={styles.navIcon} />
+            <Text style={styles.navText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.navButton} onPress={handlePredictPress}>
+            <Image source={require('../assets/camera.png')} style={styles.navIcon} />
+            <Text style={styles.navText}>Predict</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.navButton} onPress={handleHighlightPress}>
+            <Image source={require('../assets/hei.png')} style={styles.navIcon} />
+            <Text style={styles.navText}>Highlight</Text>
+          </TouchableOpacity>
         </View>
-        {/* Black line below lab tests box */}
-        <View style={styles.blackLine} />
-      </View>
-
-      <View style={styles.nav}>
-        <TouchableOpacity style={styles.navButton} onPress={handleHomePress}>
-          <Image source={require('../assets/home.png')} style={styles.navIcon} />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={handlePredictPress}>
-          <Image source={require('../assets/camera.png')} style={styles.navIcon} />
-          <Text style={styles.navText}>Predict</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={handleHighlightPress}>
-          <Image source={require('../assets/hei.png')} style={styles.navIcon} />
-          <Text style={styles.navText}>Highlight</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -57,41 +93,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: darkBlue,
   },
-  headerContainer: {
-    flexDirection: 'row',
-    backgroundColor: darkBlue,
-    alignItems: 'center',
-    padding: '12%',
-  },
-  headerTextContainer: {
-    marginLeft: 10,
-  },
-  doctorName: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  doctorInfo: {
-    color: 'black',
-    fontSize: 12,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginLeft: '-7%'
-  },
-  scrollViewContainer: {
+  contentContainer: {
     flex: 1,
-    padding: 20,
   },
-  listContainer: {
-    borderRadius: 3,
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingTop: '10%',
+    paddingBottom: 100, // Add padding to accommodate the footer
+  },
+  section: {
+    flex: 1,
     padding: 10,
-    marginBottom: '12%',
-    borderWidth: 5,
+    borderWidth: 3,
     borderColor: blue,
+    borderRadius: 3,
+    marginBottom: 20,
   },
-  listTitle: {
+  sectionTitle: {
     color: 'black',
     fontWeight: 'bold',
     fontSize: 18,
@@ -99,24 +119,34 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     borderBottomColor: blue,
   },
-  listItem: {
-    color: 'black',
-    fontSize: 14,
-    marginBottom: 5,
-    paddingRight: 10, 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
-  scrollView: {
-    maxHeight: 200,
+  inputShort: {
+    height: 40,
+    width: 100, // Adjust width as needed
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: darkBlue,
+    paddingVertical: 10,
   },
   nav: {
-    backgroundColor: darkBlue,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: 10,
+    marginTop: 10,
   },
   navIcon: {
     width: 35,
@@ -129,35 +159,12 @@ const styles = StyleSheet.create({
   navButton: {
     alignItems: 'center',
   },
-  medicineItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 5,
-  },
-  medicineName: {
-    color: 'black',
-    fontSize: 14,
-    flex: 3, 
-  },
-  medicineFrequency: {
-    color: 'black',
-    fontSize: 14,
-    flex: 1, 
-  },
-  medicineDuration: {
-    color: 'red', 
-    flex: 1, 
-  },
-  // Style for the black line
-  blackLine: {
-    //borderBottomWidth: 1,
-    borderBottomColor: blue,
-    height: 8,
-   
-        borderBottomWidth: 5, // Increase the border width to make it more visible
-        //borderBottomColor: blue,
-      
+  // Style for the vertical line
+  verticalLine: {
+    borderLeftWidth: 5,
+    borderLeftColor: blue,
+    marginHorizontal: 10,
+    height: '100%',
   },
 });
 
