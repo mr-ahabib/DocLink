@@ -1,27 +1,25 @@
-import { Image, StyleSheet, Text, TextInput, View, Alert} from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View, } from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 import { CheckBox } from 'react-native-elements';
-import axios from 'axios';
 
 
 // dropdown
 import { Dropdown } from 'react-native-element-dropdown';
   import AntDesign from '@expo/vector-icons/AntDesign';
-import apiUrl from './api';
 
   const data = [
-    { label: 'Patient', value: 'Patient' },
-    { label: 'Doctor', value: 'Doctor' },
-    { label: 'Pathologist', value: 'Pathologist' },
-    { label: 'Pharmacist', value: 'Pharmacist' },
+    { label: 'Patient', value: '1' },
+    { label: 'Doctor', value: '2' },
+    { label: 'Pathologist', value: '3' },
+    { label: 'Pharmacist', value: '4' },
     
   ];
 // dropdown
 
-const Register = (props:any) => {
+const Register = () => {
   const [userId, setUserId] = useState('');
   const [userId1, setUserId1] = useState('');
   const [password, setPassword] = useState('');
@@ -31,59 +29,7 @@ const Register = (props:any) => {
   const navigation = useNavigation(); // Use useNavigation hook to get navigation object
   const [contactNumber, setContactNumber] = useState(''); //for ContactNumber
 
-  const [value, setValue] = useState(''); // dropdown
-  const [email,setEmail]=useState('');
-  const [loading, setLoading] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(false);
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleEmailChange = (text:string) => {
-    setEmail(text);
-    setIsValidEmail(validateEmail(text)); // Update isValidEmail state on email change
-  };
-  const newSignUp = async () => {
-    
-  
-    try {
-      setLoading(true);
-
-      if (!value||!userId || !userId1 ||!contactNumber|| !email || !password||!isSelected){
-        Alert.alert("Please input all the fields first");
-        return;
-      }
-      // if (!isValidEmail) {
-      //   Alert.alert("Please enter a valid email address");
-      //   return;
-      // }
-
-      // Validate contactNumber length
-      if (contactNumber.length !== 11) {
-        Alert.alert("Contact Number must be 11 digits");
-        return;
-      }
-      const response = await axios.post( `${apiUrl}/api/users`, {
-        identity:value,
-        firstname: userId,
-        lastname: userId1,
-        contact:contactNumber,
-        email: email,
-        password: password,
-      });
-
-      Alert.alert("Account created Successfully.");
-      props.navigation.navigate('Login')
-    } catch (error) {
-      console.error("Error creating user:", error);
-      Alert.alert("Error", "Invalid input. Please check your details.");
-      Alert.alert("Error", "Failed to create user");
-    } finally {
-      setLoading(false);
-    }
-    };
+  const [value, setValue] = useState(null); // dropdown
 
   const firstName = (text: string) => {
     setUserId(text);
@@ -130,7 +76,7 @@ const Register = (props:any) => {
         {/* <Text style={styles.text1}>User ID:</Text> */}
         <TextInput
           style={styles.styleText}
-          onChangeText={setUserId}
+          onChangeText={firstName}
           value={userId}
           placeholder="First Name"
         />
@@ -140,7 +86,7 @@ const Register = (props:any) => {
         {/* <Text style={styles.text1}>User ID:</Text> */}
         <TextInput
           style={styles.styleText}
-          onChangeText={setUserId1}
+          onChangeText={lastName}
           value={userId1}
           placeholder="Last Name"
         />
@@ -151,29 +97,15 @@ const Register = (props:any) => {
         {/* <Text style={styles.text1}>Contact Number:</Text> */}
         <TextInput
           style={styles.styleText}
-           onChangeText={setContactNumber}
+          // onChangeText={handleContactNumberChange}
           value={contactNumber}
-          placeholder="Contact Number eg:01xxx-xxxxxx"
+          placeholder="Contact Number"
           keyboardType="phone-pad"
-          maxLength={11}
         />
       </View>
 
       <View>
-      <TextInput
-          style={styles.styleText}
-          onChangeText={setEmail}
-          value={email}
-          placeholder="Email"
-        />
-        {isValidEmail && (
-            <MaterialCommunityIcons
-              name="check"
-              size={24}
-              color="green"
-              style={styles.icon}
-            />
-          )}
+        {/* <Text style={styles.text1}>Password:</Text> */}
       </View>
 
       <View style={styles.passContainer}>
@@ -194,7 +126,7 @@ const Register = (props:any) => {
         />
       </View>
 
-      {/* <View style={styles.passContainer1}>
+      <View style={styles.passContainer1}>
         <TextInput
           secureTextEntry={!showPassword}
           value={password1}
@@ -210,7 +142,7 @@ const Register = (props:any) => {
           style={styles.icon}
           onPress={toggleShowPassword}
         />
-      </View> */}
+      </View>
 
       
       <View style={styles.checkboxContainer}>
@@ -226,12 +158,12 @@ const Register = (props:any) => {
 
       
 
-      <TouchableOpacity style={styles.button} onPress={newSignUp}>
+      <TouchableOpacity style={styles.button} >
         <Text style={styles.text3}>Sign Up</Text>
       </TouchableOpacity>
 
      {/* <View><Text style={styles.forgetText}>Forgot Password?</Text></View> */}
-     <Text style={styles.labe2}>Already have an account? <Text style={styles.labe3} onPress={() => props.navigation.navigate("Login")}>Login</Text></Text>
+     <Text style={styles.labe2}>Already have an account? <Text style={styles.labe3} onPress={() => navigation.navigate("Login")}>Login</Text></Text>
      
      
      <View><Text style={styles.ContactUS}>Contact US</Text></View>
